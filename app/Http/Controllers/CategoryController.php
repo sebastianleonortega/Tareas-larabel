@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -13,7 +14,8 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = Category::all();
+        return view('categories.index', ['categories'=>$categories]);
     }
 
     /**
@@ -34,7 +36,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name'=>'required|unique:categories|max:255',
+            'color'=>'required|max:7'
+        ]);
+
+        $category = new Category;
+        $category->name = $request->name;
+        $category->color = $request->color;
+        $category->save();
+
+        return redirect()->route('categories.index')->with('success', 'Nueva categoria agregada!');
     }
 
     /**
@@ -45,7 +57,8 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        //
+        $category = Category::find($id);
+        return view('categories.show',['category'=>$category]);
     }
 
     /**
@@ -68,7 +81,12 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category = Category::find($id);
+        $category->name = $category->name;
+        $category->color = $category->color;
+        $category->save;
+
+        return redirect()->route('categories.index')->with('success', 'Categoria actualizada!');
     }
 
     /**
@@ -79,6 +97,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        $category->delete();
+
+        return redirect()->route('categories.index')->with('success', 'Categoria eliminada!');
     }
 }

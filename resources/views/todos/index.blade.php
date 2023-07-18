@@ -16,7 +16,7 @@
                         <h6 class="alert alert-success">{{ session('success') }}</h6>
                     @endif
                     <label for="title" class="form-label">Título de la tarea</label>
-                    <input type="text" class="form-control mb-2" name="title" id="exampleFormControlInput1" placeholder="Comprar la cena">
+                    <input type="text" class="form-control mb-2" name="title">
 
                     <input type="submit" value="Crear tarea" class="btn btn-primary my-2" />
                 </div>
